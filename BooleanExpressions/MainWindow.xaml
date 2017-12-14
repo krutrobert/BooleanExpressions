@@ -1,0 +1,195 @@
+﻿<Window x:Class="BooleanExpressions.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BooleanExpressions"
+        xmlns:vm="clr-namespace:BooleanExpressions.ViewModels;assembly=BooleanExpressions.ViewModels"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="BooleanExpressions"
+        Height="600" Width="800"
+        MinWidth="400">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <TabControl>
+        <TabItem Header="Булеві вирази"
+                 Width="150"
+                 Background="White">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
+                    <Label Content="Задайте атоми" 
+                           Padding="20,10,0,10"/>
+
+                    <DataGrid Name="dataGridAlternatives"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                              MaxHeight="200"
+                              Margin="10,0,10,0"
+                              Background="White"
+                              SelectionMode="Single"
+                              ItemsSource="{Binding Atoms, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedAtom}"
+                              CanUserAddRows="True"
+                              CanUserDeleteRows="True">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Твердження" Binding="{Binding Name}" Width="100">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                    <Grid Background="{TemplateBinding Background}">
+                                                        <ContentPresenter VerticalAlignment="Center"
+                                                                          HorizontalAlignment="Center"/>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                            <DataGridCheckBoxColumn Header="Правдиве" Binding="{Binding Value}" Width="80"/>
+                            <DataGridTextColumn Header="Опис" Binding="{Binding Description}" Width="*"/>
+                        </DataGrid.Columns>
+
+                        <DataGrid.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#96C5F7"/>
+                        </DataGrid.Resources>
+                    </DataGrid>
+
+                    <Label Content="Задайте вираз" 
+                           Padding="20,10,0,10"/>
+
+                    <TextBox IsReadOnly="True"
+                             Margin="10,0,10,5"
+                             Padding="10,0,10,0"
+                             Text="{Binding Expression.ExpressionText, Mode=OneWay}"/>
+
+                    <Grid Margin="10"
+                          Height="80">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Button Content="Атом"
+                                Grid.Row="0" Grid.Column="0"
+                                Command="{Binding AtomCommand}"
+                                IsEnabled="{Binding AtomEnabled}"/>
+                        <Button Content="Заперечення"
+                                Grid.Row="0" Grid.Column="1"
+                                Command="{Binding NotCommand}"
+                                IsEnabled="{Binding NotEnabled}"/>
+                        <Button Content="Кон'юнкція"
+                                Grid.Row="0" Grid.Column="2"
+                                Command="{Binding AndCommand}"
+                                IsEnabled="{Binding OperatorEnabled}"/>
+                        <Button Content="Диз'юнкція"
+                                Grid.Row="0" Grid.Column="3"
+                                Command="{Binding OrCommand}"
+                                IsEnabled="{Binding OperatorEnabled}"/>
+                        <Button Content="&#x2190;"
+                                Grid.Row="0" Grid.Column="4"
+                                Command="{Binding RemoveLastCommand}"
+                                IsEnabled="{Binding RemoveEnabled}"/>
+                        <Button Content="Імплікація"
+                                Grid.Row="1" Grid.Column="0"
+                                Command="{Binding ImpCommand}"
+                                IsEnabled="{Binding OperatorEnabled}"/>
+                        <Button Content="Еквівалентність"
+                                Grid.Row="1" Grid.Column="1"
+                                Command="{Binding EqualsCommand}"
+                                IsEnabled="{Binding OperatorEnabled}"/>
+                        <Button Content="("
+                                Grid.Row="1" Grid.Column="2"
+                                Command="{Binding LBracketCommand}"
+                                IsEnabled="{Binding LBracketEnabled}"/>
+                        <Button Content=")"
+                                Grid.Row="1" Grid.Column="3"
+                                Command="{Binding RBracketCommand}"
+                                IsEnabled="{Binding RBracketEnabled}"/>
+                        <Button Content="Очистити"
+                                Grid.Row="1" Grid.Column="4"
+                                Command="{Binding ClearCommand}"
+                                IsEnabled="{Binding RemoveEnabled}"/>
+                    </Grid>
+
+                    <Button Content="Результат" 
+                            Margin="10,0,10,10"
+                            Height="40"
+                            Command="{Binding ResultCommand}"
+                            IsEnabled="{Binding ResultEnabled}"/>
+
+                    <TextBox IsReadOnly="True"
+                             Margin="10,0,10,5"
+                             Padding="10,0,10,0"
+                             Text="{Binding Result, Mode=OneWay}"/>
+
+                    <TextBox IsReadOnly="True"
+                             Height="Auto"
+                             Margin="10,0,10,20"
+                             Padding="10"
+                             Text="{Binding TruthTable, Mode=OneWay}"/>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem Header="Побітові операції"
+                 Width="150"
+                 Background="White">
+            <StackPanel>
+                <TextBox Margin="10,20,10,5"
+                         Padding="10,0,10,0"
+                         HorizontalContentAlignment="Right"
+                         Text="{Binding BitRow1}"/>
+
+                <TextBox Margin="10,0,10,5"
+                         Padding="10,0,10,0"
+                         HorizontalContentAlignment="Right"
+                         Text="{Binding BitRow2}"/>
+
+                <Grid Margin="10"
+                      Height="40">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Button Content="AND"
+                            Grid.Row="0" Grid.Column="0"
+                            Command="{Binding BitwiseAndCommand}"/>
+                    <Button Content="OR"
+                            Grid.Row="0" Grid.Column="1"
+                            Command="{Binding BitwiseOrCommand}"/>
+                    <Button Content="XOR"
+                            Grid.Row="0" Grid.Column="2"
+                            Command="{Binding BitwiseXorCommand}"/>
+                </Grid>
+
+                <TextBox IsReadOnly="True"
+                         Margin="10,5,10,5"
+                         Padding="10,0,10,0"
+                         Text="{Binding BitwiseResult, Mode=OneWay}"/>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+</Window>

@@ -1,0 +1,6 @@
+C:\Users\bibip_000\source\repos\BooleanExpressions\BooleanExpressions.Models\bin\Debug\BooleanExpressions.Models.dll
+C:\Users\bibip_000\source\repos\BooleanExpressions\BooleanExpressions.Models\bin\Debug\BooleanExpressions.Models.pdb
+C:\Users\bibip_000\source\repos\BooleanExpressions\BooleanExpressions.Models\obj\Debug\BooleanExpressions.Models.csproj.CoreCompileInputs.cache
+C:\Users\bibip_000\source\repos\BooleanExpressions\BooleanExpressions.Models\obj\Debug\BooleanExpressions.Models.dll
+C:\Users\bibip_000\source\repos\BooleanExpressions\BooleanExpressions.Models\obj\Debug\BooleanExpressions.Models.pdb
+C:\Users\bibip_000\source\repos\BooleanExpressions\BooleanExpressions.Models\obj\Debug\BooleanExpressions.Models.csprojResolveAssemblyReference.cache
